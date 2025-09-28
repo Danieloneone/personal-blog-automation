@@ -10,18 +10,23 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
+      # 1️⃣ Clona el repositorio
       - uses: actions/checkout@v3
+
+      # 2️⃣ Actualiza README (por ahora solo un mensaje de prueba)
       - name: Update README
         run: |
           echo "Updating README with recent repository activity..."
-          # Aquí iría tu script para actualizar el README
+          # Aquí puedes poner tu script real para actualizar el README
+
+      # 3️⃣ Commit y push usando el token
       - name: Commit changes
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add README.md
           git commit -m "PBA-1: Update README automatically #close" || echo "No changes to commit"
-          git push
+          git push https://x-access-token:${{ secrets.REPO_TOKEN }}@github.com/${{ github.repository }} HEAD:main
         env:
           REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
 
